@@ -1,29 +1,74 @@
-function setTimeoutPromise(delay) {
-    return new Promise((resolve, reject) => {
-
+const boilWater = () => {
+    return new Promise((resolve) => {
         setTimeout(() => {
-            resolve(`You waited ${delay} milliseconds`)
-        }, delay)
-    })
-}
-setTimeoutPromise(250)
-    .then(msg => {
-        console.log(msg)
-        console.log("First Timeout")
-    })
-    .then(msg => {
-        console.log(msg)
-        console.log("Second Timeout")
-    })
+            console.log("Boiling water...");
+            resolve();
+        }, 5000);
+    });
+};
+const  grindingCoffeeBean = () => {
+    return new Promise((resolve,reject) => {
+    setTimeout(function () {
+        console.log("Beans is ready")
+        resolve();
+    }, 2000);
+    });
+};
 
+const addSugar = () => {
+    return new Promise((resolve,reject) => {
+        setTimeout(() => {
+            console.log("Adding sugar");
+            resolve();
+            // reject("No sugar found");
+        }, 2000);
+    });
+};
 
-// doStuff()
-// async function doStuff() {
-//     const msg1 =setTimeoutPromise(250)
-//     console.log(setTimeoutPromise(msg1,500))
-//     console.log("First Timeout")
-//
-//     const msg2 = await setTimeoutPromise(500)
-//     console.log(msg2)
-//     console.log("Second Timeout")
+const mixAllIngredients = () => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            console.log("Mixing All");
+            resolve();
+        }, 2000);
+    });
+};
+const pourOut = () => {
+    console.log("Everything done");
+};
+
+// Handling concurrent Promises
+// boilWater()
+//     .then(grindingCoffeeBean)
+//     .then(addSugar)
+//     .then(mixAllIngredients)
+//     .then(pourOut)
+//     .catch((error) => {
+//         console.error("Error:", error);
+//     });
+
+// Using Promise.all
+// const getCoffee = () => {
+//     return Promise.all([boilWater(), grindingCoffeeBean(),addSugar(), mixAllIngredients()])
+//         .then(pourOut)
+//         .catch(()=>{
+//             console.log("coffee isn't ready ")
+//         })
 // }
+// getCoffee()
+
+
+// async await
+const getCoffee = async () => {
+    try {
+        await grindingCoffeeBean();
+        await boilWater();
+        await addSugar();
+        await mixAllIngredients();
+        pourOut();
+    } catch (error) {
+        console.error("Error:", error);
+    }
+};
+getCoffee();
+
